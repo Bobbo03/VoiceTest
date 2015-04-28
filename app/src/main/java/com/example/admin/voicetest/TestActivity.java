@@ -7,6 +7,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Intent;
@@ -27,6 +29,10 @@ public class TestActivity extends ActionBarActivity implements OnClickListener {
 
     @Override
     public void onClick(View v) {
+        contSpeak();
+    }
+
+    public void contSpeak() {
         Intent i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         i.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
         try {
@@ -42,6 +48,17 @@ public class TestActivity extends ActionBarActivity implements OnClickListener {
         if (requestCode==REQUEST_OK  && resultCode==RESULT_OK) {
             ArrayList<String> thingsYouSaid = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             ((TextView)findViewById(R.id.fillMe)).setText(thingsYouSaid.get(0));
+            shownHide(thingsYouSaid);
+            contSpeak();
+        }
+    }
+
+    public void shownHide (ArrayList<String> command) {
+        if (command.get(0).equals("show")){
+            showButton();
+        }
+        else if (command.get(0).equals("hyde")){
+            hideButton();
         }
     }
 
